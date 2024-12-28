@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BME280 Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    .data { font-size: 1.5em; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>BME280 Sensor Dashboard</h1>
+  <div id="temperature" class="data">Temperature: -- °C</div>
+  <div id="humidity" class="data">Humidity: -- %</div>
+  <div id="pressure" class="data">Pressure: -- hPa</div>
+
+  <script>
+    async function fetchSensorData() {
+      try {
+        const response = await fetch("https://weather-station-robotic-default-rtdb.europe-west1.firebasedatabase.app/);
+        const data = await response.json();
+
+        document.getElementById("temperature").textContent = `Temperature: ${data.temperature} °C`;
+        document.getElementById("humidity").textContent = `Humidity: ${data.humidity} %`;
+        document.getElementById("pressure").textContent = `Pressure: ${data.pressure} hPa`;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    // Refresh data every 2 seconds
+    setInterval(fetchSensorData, 2000);
+    fetchSensorData(); // Initial fetch
+  </script>
+</body>
+</html>
+
