@@ -1,6 +1,6 @@
 // Define the ThingSpeak channel and API key
 const channelID = '2797124'; // Your ThingSpeak Channel ID
-const readAPIKey = 'YOUR_READ_API_KEY'; // Replace with your ThingSpeak Read API Key
+const readAPIKey = 'UAQBLOMI2WI5KZHC'; // Replace with your ThingSpeak Read API Key
 
 // Function to fetch data from ThingSpeak
 async function fetchSensorData() {
