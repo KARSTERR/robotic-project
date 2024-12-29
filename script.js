@@ -43,7 +43,7 @@ const plants = [
     const readAPIKey = 'UAQBLOMI2WI5KZHC'; // Your ThingSpeak Read API Key
   
     // Fetch the latest data from ThingSpeak
-  const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPIKey}&results=1`);
+  const response = await fetch(`GET https://api.thingspeak.com/channels/2797124/fields/1.json?results=2`);
   const data = await response.json();
 
   // Check if data is available
