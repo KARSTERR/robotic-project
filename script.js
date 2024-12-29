@@ -43,26 +43,30 @@ const plants = [
     const readAPIKey = 'UAQBLOMI2WI5KZHC'; // Your ThingSpeak Read API Key
   
     // Fetch the latest data from ThingSpeak
-    const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`);
-    const data = await response.json();
-    
+  const response = await fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPIKey}&results=1`);
+  const data = await response.json();
+
+  // Check if data is available
+  if (data.feeds && data.feeds.length > 0) {
     const temperature = data.feeds[0].field1;
     const humidity = data.feeds[0].field2;
     const light = data.feeds[0].field3;
-  
+
     // Update the page with the fetched data
     document.getElementById('current-temperature').textContent = temperature;
     document.getElementById('current-humidity').textContent = humidity;
     document.getElementById('current-light').textContent = light;
-  
+
     // Find the optimal plants and trees based on the current sensor data
     const { optimalPlants, optimalTrees } = findOptimalPlantsTrees(temperature, humidity, light);
-  
+
     // Display the optimal plants and trees
     document.getElementById('optimal-plants').textContent = optimalPlants.map(plant => plant.name).join(", ");
     document.getElementById('optimal-trees').textContent = optimalTrees.map(tree => tree.name).join(", ");
+  } else {
+    console.error("No data available from ThingSpeak.");
   }
-  
-  // Call the function to fetch data when the page loads
-  fetchThingSpeakData();
-  
+}
+
+// Call the function to fetch data when the page loads
+fetchThingSpeakData();
