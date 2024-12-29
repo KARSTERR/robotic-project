@@ -3,35 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BME280 Sensor Dashboard</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
-    .data { font-size: 1.5em; margin: 10px 0; }
-  </style>
+  <title>Smart Greenhouse Monitoring</title>
+  <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
-  <h1>BME280 Sensor Dashboard</h1>
-  <div id="temperature" class="data">Temperature: -- °C</div>
-  <div id="humidity" class="data">Humidity: -- %</div>
-  <div id="pressure" class="data">Pressure: -- hPa</div>
+  <div class="container">
+    <header>
+      <h1>Smart Greenhouse Monitoring</h1>
+      <img src="greenhouse.png" alt="Greenhouse Image" class="header-img">
+    </header>
 
-  <script>
-    async function fetchSensorData() {
-      try {
-        const response = await fetch("https://api.thingspeak.com/channels/2796774/fields/1.json?api_key=WTJVJ8NK8N6WABEH");
-        const data = await response.json();
+    <div class="sensor-data">
+      <h2>Current Sensor Data</h2>
+      <p>Temperature: <span id="current-temperature">Loading...</span> °C</p>
+      <p>Humidity: <span id="current-humidity">Loading...</span> %</p>
+      <p>Light Intensity: <span id="current-light">Loading...</span> %</p>
+    </div>
 
-        document.getElementById("temperature").textContent = `Temperature: ${data.field1} °C`;
-        document.getElementById("humidity").textContent = `Humidity: ${data.field2} %`;
-        document.getElementById("pressure").textContent = `Pressure: ${data.field3} hPa`;
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
+    <div class="optimal-plants">
+      <h2>Optimal Plants</h2>
+      <p id="optimal-plants">Loading...</p>
+    </div>
 
-    // Refresh data every 2 seconds
-    setInterval(fetchSensorData, 2000);
-    fetchSensorData(); // Initial fetch
-  </script>
+    <div class="optimal-trees">
+      <h2>Optimal Trees</h2>
+      <p id="optimal-trees">Loading...</p>
+    </div>
+
+    <footer>
+      <p>Powered by Smart Greenhouse Project</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script> <!-- Link to the external JS file -->
 </body>
 </html>

@@ -1,0 +1,66 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8f0;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  header {
+    text-align: center;
+    background-color: #2c8e46;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  header h1 {
+    font-size: 2.5em;
+  }
+  
+  header img.header-img {
+    width: 50%;
+    max-width: 400px;
+    margin-top: 20px;
+    border-radius: 8px;
+  }
+  
+  .sensor-data, .optimal-plants, .optimal-trees {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    color: #2c8e46;
+  }
+  
+  p {
+    font-size: 1.2em;
+    line-height: 1.5;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 10px;
+    background-color: #2c8e46;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  /* Additional Styling */
+  #optimal-plants, #optimal-trees {
+    font-weight: bold;
+    color: #2c8e46;
+  }
+  
