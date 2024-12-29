@@ -40,36 +40,19 @@ async function fetchSensorData() {
 function displayOptimalPlants(temperature, humidity, light) {
   // Define the optimal ranges for each plant type
   const plants = [
-    {
-      name: 'Tomato',
-      temperatureRange: [20, 25], // Optimal temperature range for Tomato
-      humidityRange: [60, 70],    // Optimal humidity range for Tomato
-      lightRange: [60, 80],       // Optimal light intensity range for Tomato
-    },
-    {
-      name: 'Lettuce',
-      temperatureRange: [15, 20],
-      humidityRange: [50, 60],
-      lightRange: [40, 60],
-    },
-    {
-      name: 'Cucumber',
-      temperatureRange: [22, 28],
-      humidityRange: [60, 80],
-      lightRange: [70, 90],
-    },
-    {
-      name: 'Rose',
-      temperatureRange: [18, 24],
-      humidityRange: [40, 60],
-      lightRange: [50, 70],
-    },
-    {
-      name: 'Sunflower',
-      temperatureRange: [18, 25],
-      humidityRange: [50, 60],
-      lightRange: [80, 100],
-    }
+    { name: "Tomato", temperature: [18, 25], humidity: [60, 70], light: [60, 80] },
+    { name: "Lettuce", temperature: [15, 20], humidity: [50, 70], light: [40, 60] },
+    { name: "Basil", temperature: [20, 30], humidity: [40, 60], light: [70, 90] },
+    { name: "Cucumber", temperature: [22, 28], humidity: [50, 70], light: [60, 80] },
+    { name: "Spinach", temperature: [10, 20], humidity: [60, 80], light: [50, 70] }
+  ];
+  
+  const trees = [
+    { name: "Apple Tree", temperature: [15, 25], humidity: [50, 70], light: [50, 70] },
+    { name: "Oak Tree", temperature: [10, 20], humidity: [40, 60], light: [40, 60] },
+    { name: "Mango Tree", temperature: [25, 35], humidity: [60, 80], light: [70, 90] },
+    { name: "Banana Tree", temperature: [20, 30], humidity: [60, 80], light: [60, 80] },
+    { name: "Lemon Tree", temperature: [20, 30], humidity: [50, 70], light: [60, 80] }
   ];
 
   // Check which plant is optimal based on the current sensor values
