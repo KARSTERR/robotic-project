@@ -1,72 +1,100 @@
-// Define optimal conditions for plants and trees
-const plants = [
-    { name: "Tomato", temperature: [18, 25], humidity: [60, 70], light: [60, 80] },
-    { name: "Lettuce", temperature: [15, 20], humidity: [50, 70], light: [40, 60] },
-    { name: "Basil", temperature: [20, 30], humidity: [40, 60], light: [70, 90] },
-    { name: "Cucumber", temperature: [22, 28], humidity: [50, 70], light: [60, 80] },
-    { name: "Spinach", temperature: [10, 20], humidity: [60, 80], light: [50, 70] }
-  ];
-  
-  const trees = [
-    { name: "Apple Tree", temperature: [15, 25], humidity: [50, 70], light: [50, 70] },
-    { name: "Oak Tree", temperature: [10, 20], humidity: [40, 60], light: [40, 60] },
-    { name: "Mango Tree", temperature: [25, 35], humidity: [60, 80], light: [70, 90] },
-    { name: "Banana Tree", temperature: [20, 30], humidity: [60, 80], light: [60, 80] },
-    { name: "Lemon Tree", temperature: [20, 30], humidity: [50, 70], light: [60, 80] }
-  ];
-  
-  // Function to check if a value is within a range
-  function isWithinRange(value, range) {
-    return value >= range[0] && value <= range[1];
+// Define the ThingSpeak channel and API key
+const channelID = '2797124'; // Your ThingSpeak Channel ID
+const readAPIKey = 'YOUR_READ_API_KEY'; // Replace with your ThingSpeak Read API Key
+
+// Function to fetch data from ThingSpeak
+async function fetchSensorData() {
+  try {
+    // Fetch temperature data from Field 1
+    const urlTemperature = `https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`;
+    const responseTemperature = await fetch(urlTemperature);
+    const dataTemperature = await responseTemperature.json();
+    const temperature = dataTemperature.feeds[0].field1;
+
+    // Fetch humidity data from Field 2
+    const urlHumidity = `https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`;
+    const responseHumidity = await fetch(urlHumidity);
+    const dataHumidity = await responseHumidity.json();
+    const humidity = dataHumidity.feeds[0].field2;
+
+    // Fetch light intensity data from Field 3
+    const urlLight = `https://api.thingspeak.com/channels/${channelID}/fields/3.json?api_key=${readAPIKey}&results=1`;
+    const responseLight = await fetch(urlLight);
+    const dataLight = await responseLight.json();
+    const light = dataLight.feeds[0].field3;
+
+    // Update the webpage with the fetched data
+    document.getElementById('current-temperature').textContent = `${temperature} °C`;
+    document.getElementById('current-humidity').textContent = `${humidity} %`;
+    document.getElementById('current-light').textContent = `${light} %`;
+
+    // Optionally, you can add logic to decide which plants are optimal based on the data
+    displayOptimalPlants(temperature, humidity, light);
+
+  } catch (error) {
+    console.error('Error fetching data from ThingSpeak:', error);
   }
-  
-  // Function to determine optimal plants/trees based on current sensor data
-  function findOptimalPlantsTrees(temperature, humidity, light) {
-    const optimalPlants = plants.filter(plant => 
-      isWithinRange(temperature, plant.temperature) &&
-      isWithinRange(humidity, plant.humidity) &&
-      isWithinRange(light, plant.light)
-    );
-  
-    const optimalTrees = trees.filter(tree => 
-      isWithinRange(temperature, tree.temperature) &&
-      isWithinRange(humidity, tree.humidity) &&
-      isWithinRange(light, tree.light)
-    );
-  
-    return { optimalPlants, optimalTrees };
-  }
-  
-  // Fetch data from ThingSpeak
-  async function fetchThingSpeakData() {
-    const channelID = '2797124'; // Your ThingSpeak Channel ID
-    const readAPIKey = 'UAQBLOMI2WI5KZHC'; // Your ThingSpeak Read API Key
-  
-    // Fetch the latest data from ThingSpeak
-  const response = await fetch(`GET https://api.thingspeak.com/channels/2797124/fields/1.json?results=2`);
-  const data = await response.json();
+}
 
-  // Check if data is available
-  if (data.feeds && data.feeds.length > 0) {
-    const temperature = data.feeds[0].field1;
-    const humidity = data.feeds[0].field2;
-    const light = data.feeds[0].field3;
+// Function to display optimal plants based on the current sensor values
+function displayOptimalPlants(temperature, humidity, light) {
+  // Define the optimal ranges for each plant type
+  const plants = [
+    {
+      name: 'Tomato',
+      temperatureRange: [20, 25], // Optimal temperature range for Tomato
+      humidityRange: [60, 70],    // Optimal humidity range for Tomato
+      lightRange: [60, 80],       // Optimal light intensity range for Tomato
+    },
+    {
+      name: 'Lettuce',
+      temperatureRange: [15, 20],
+      humidityRange: [50, 60],
+      lightRange: [40, 60],
+    },
+    {
+      name: 'Cucumber',
+      temperatureRange: [22, 28],
+      humidityRange: [60, 80],
+      lightRange: [70, 90],
+    },
+    {
+      name: 'Rose',
+      temperatureRange: [18, 24],
+      humidityRange: [40, 60],
+      lightRange: [50, 70],
+    },
+    {
+      name: 'Sunflower',
+      temperatureRange: [18, 25],
+      humidityRange: [50, 60],
+      lightRange: [80, 100],
+    }
+  ];
 
-    // Update the page with the fetched data
-    document.getElementById('current-temperature').textContent = temperature;
-    document.getElementById('current-humidity').textContent = humidity;
-    document.getElementById('current-light').textContent = light;
+  // Check which plant is optimal based on the current sensor values
+  const optimalPlants = plants.filter(plant => 
+    temperature >= plant.temperatureRange[0] && temperature <= plant.temperatureRange[1] &&
+    humidity >= plant.humidityRange[0] && humidity <= plant.humidityRange[1] &&
+    light >= plant.lightRange[0] && light <= plant.lightRange[1]
+  );
 
-    // Find the optimal plants and trees based on the current sensor data
-    const { optimalPlants, optimalTrees } = findOptimalPlantsTrees(temperature, humidity, light);
-
-    // Display the optimal plants and trees
-    document.getElementById('optimal-plants').textContent = optimalPlants.map(plant => plant.name).join(", ");
-    document.getElementById('optimal-trees').textContent = optimalTrees.map(tree => tree.name).join(", ");
+  // Display the optimal plants
+  const plantList = document.getElementById('optimal-plants');
+  plantList.innerHTML = ''; // Clear the current list
+  if (optimalPlants.length > 0) {
+    optimalPlants.forEach(plant => {
+      const plantItem = document.createElement('li');
+      plantItem.textContent = plant.name;
+      plantList.appendChild(plantItem);
+    });
   } else {
-    console.error("No data available from ThingSpeak.");
+    plantList.innerHTML = '<li>No optimal plants found for the current conditions.</li>';
   }
 }
 
 // Call the function to fetch data when the page loads
-fetchThingSpeakData();
+fetchSensorData();
+
+// Optionally, you can set an interval to fetch the data periodically (e.g., every 30 seconds)
+setInterval(fetchSensorData, 30000);
