@@ -1,42 +1,33 @@
 <!DOCTYPE html>
-<html lang="tr">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mikroiklim ve Tarım Verisi Entegrasyonu</title>
-  <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Monitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        h1, p {
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
-  <div class="container">
-    <header>
-      <h1>Mikroiklim ve Tarım Verisi Entegrasyonu</h1>
-    </header>
+    <div class="container">
+        <h1>Plant Monitor</h1>
+        <p id="current-temperature">Current Temperature: Loading...</p>
+        <p id="current-humidity">Current Humidity: Loading...</p>
+        <p id="current-light">Current Light Intensity: Loading...</p>
+        <p id="optimal-plants"></p>
+    </div>
+
     <script src="script.js"></script>
-    <div class="sensor-data">
-      <h2>Mevcut Sensör Verileri</h2>
-      <p>Sıcaklık: <span id="current-temperature">Yükleniyor...</span></p>
-      <p>Nem: <span id="current-humidity">Yükleniyor...</span></p>
-      <p>Işık Yoğunluğu: <span id="current-light">Yükleniyor...</span></p>
-    </div>
-
-    <div class="optimal-plants">
-      <h2>Optimal Bitkiler</h2>
-      <ul id="optimal-plants">Yükleniyor...</ul>
-    </div>
-
-    <div class="optimal-trees">
-      <h2>Optimal Ağaçlar</h2>
-      <ul id="optimal-trees">Yükleniyor...</ul>
-    </div>
-
-    <footer>
-      <p>Efe Can Kara tarafından robotik projesi olarak yapılmıştır.</p>
-    </footer>
-  </div>
-
-  
 </body>
-
 </html>
