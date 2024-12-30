@@ -1,40 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Greenhouse Monitoring</title>
+  <title>Mikroiklim ve Tarım Verisi Entegrasyonu</title>
   <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
 </head>
+
 <body>
   <div class="container">
     <header>
-      <h1>Smart Greenhouse Monitoring</h1>
+      <h1>Mikroiklim ve Tarım Verisi Entegrasyonu</h1>
       <img src="greenhouse.png" alt="Greenhouse Image" class="header-img">
     </header>
 
     <div class="sensor-data">
-      <h2>Current Sensor Data</h2>
-      <p>Temperature: <span id="current-temperature">Loading...</span> °C</p>
-      <p>Humidity: <span id="current-humidity">Loading...</span> %</p>
-      <p>Light Intensity: <span id="current-light">Loading...</span> %</p>
+      <h2>Mevcut Sensör Verileri</h2>
+      <p>Sıcaklık: <span id="current-temperature">Yükleniyor...</span> °C</p>
+      <p>Nem: <span id="current-humidity">Yükleniyor...</span> %</p>
+      <p>Işık Yoğunluğu: <span id="current-light">Yükleniyor...</span> %</p>
     </div>
 
     <div class="optimal-plants">
-      <h2>Optimal Plants</h2>
-      <p id="optimal-plants">Loading...</p>
+      <h2>Optimal Bitkiler</h2>
+      <ul id="optimal-plants">Yükleniyor...</ul>
     </div>
 
     <div class="optimal-trees">
-      <h2>Optimal Trees</h2>
-      <p id="optimal-trees">Loading...</p>
+      <h2>Optimal Ağaçlar</h2>
+      <ul id="optimal-trees">Yükleniyor...</ul>
     </div>
 
     <footer>
-      <p>Powered by Smart Greenhouse Project</p>
+      <p>Efe Can Kara tarafından robotik projesi olarak yapılmıştır.</p>
     </footer>
   </div>
 
   <script src="script.js"></script> <!-- Link to the external JS file -->
 </body>
+
 </html>
