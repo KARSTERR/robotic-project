@@ -36,7 +36,6 @@ async function fetchSensorData() {
   }
 }
 
-// Function to display optimal plants based on the current sensor values
 function displayOptimalPlants(temperature, humidity, light) {
   // Define the optimal ranges for each plant type
   const plants = [
@@ -57,9 +56,15 @@ function displayOptimalPlants(temperature, humidity, light) {
 
   // Check which plant is optimal based on the current sensor values
   const optimalPlants = plants.filter(plant => 
-    temperature >= plant.temperatureRange[0] && temperature <= plant.temperatureRange[1] &&
-    humidity >= plant.humidityRange[0] && humidity <= plant.humidityRange[1] &&
-    light >= plant.lightRange[0] && light <= plant.lightRange[1]
+    temperature >= plant.temperature[0] && temperature <= plant.temperature[1] &&
+    humidity >= plant.humidity[0] && humidity <= plant.humidity[1] &&
+    light >= plant.light[0] && light <= plant.light[1]
+  );
+
+  const optimalTrees = trees.filter(tree => 
+    temperature >= tree.temperature[0] && temperature <= tree.temperature[1] &&
+    humidity >= tree.humidity[0] && humidity <= tree.humidity[1] &&
+    light >= tree.light[0] && light <= tree.light[1]
   );
 
   // Display the optimal plants
@@ -73,6 +78,19 @@ function displayOptimalPlants(temperature, humidity, light) {
     });
   } else {
     plantList.innerHTML = '<li>No optimal plants found for the current conditions.</li>';
+  }
+
+  // Display the optimal trees
+  const treeList = document.getElementById('optimal-trees');
+  treeList.innerHTML = ''; // Clear the current list
+  if (optimalTrees.length > 0) {
+    optimalTrees.forEach(tree => {
+      const treeItem = document.createElement('li');
+      treeItem.textContent = tree.name;
+      treeList.appendChild(treeItem);
+    });
+  } else {
+    treeList.innerHTML = '<li>No optimal trees found for the current conditions.</li>';
   }
 }
 
