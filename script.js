@@ -9,19 +9,19 @@ async function fetchSensorData() {
     const urlTemperature = `https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`;
     const responseTemperature = await fetch(urlTemperature);
     const dataTemperature = await responseTemperature.json();
-    const temperature = parseFloat(dataTemperature.feeds[0].field1).toFixed(2);
+    const temperature = dataTemperature.feeds[0].field1;
 
     // Fetch humidity data from Field 2
     const urlHumidity = `https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`;
     const responseHumidity = await fetch(urlHumidity);
     const dataHumidity = await responseHumidity.json();
-    const humidity = parseFloat(dataHumidity.feeds[0].field2).toFixed(2);
+    const humidity = dataHumidity.feeds[0].field2;
 
     // Fetch light intensity data from Field 3
     const urlLight = `https://api.thingspeak.com/channels/${channelID}/fields/3.json?api_key=${readAPIKey}&results=1`;
     const responseLight = await fetch(urlLight);
     const dataLight = await responseLight.json();
-    const light = parseFloat(dataLight.feeds[0].field3).toFixed(2);
+    const light = dataLight.feeds[0].field3;
 
     // Update the webpage with the fetched data
     document.getElementById('current-temperature').textContent = `${temperature} °C`;
