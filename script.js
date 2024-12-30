@@ -1,57 +1,101 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const channelID = '2797124'; // Your ThingSpeak Channel ID
-  const readAPIKey = 'UAQBLOMI2WI5KZHC'; // Replace with your ThingSpeak Read API Key
+// Define the ThingSpeak channel and API key
+const channelID = '2797124'; // Your ThingSpeak Channel ID
+const readAPIKey = 'UAQBLOMI2WI5KZHC'; // Replace with your ThingSpeak Read API Key
 
-  async function fetchDataAndUpdateUI() {
-      try {
-          const urlTemp = `https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`;
-          const responseTemp = await fetch(urlTemp);
-          const dataTemp = await responseTemp.json();
-          const temperature = parseFloat(dataTemp.feeds[0].field1).toFixed(2);
+// Function to fetch data from ThingSpeak
+async function fetchSensorData() {
+  try {
+    // Fetch temperature data from Field 1
+    const urlTemperature = `https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`;
+    const responseTemperature = await fetch(urlTemperature);
+    const dataTemperature = await responseTemperature.json();
+    const temperature = parseFloat(dataTemperature.feeds[0].field1).toFixed(2);
 
-          const urlHumidity = `https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`;
-          const responseHumidity = await fetch(urlHumidity);
-          const dataHumidity = await responseHumidity.json();
-          const humidity = parseFloat(dataHumidity.feeds[0].field2).toFixed(2);
+    // Fetch humidity data from Field 2
+    const urlHumidity = `https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`;
+    const responseHumidity = await fetch(urlHumidity);
+    const dataHumidity = await responseHumidity.json();
+    const humidity = parseFloat(dataHumidity.feeds[0].field2).toFixed(2);
 
-          const urlLight = `https://api.thingspeak.com/channels/${channelID}/fields/3.json?api_key=${readAPIKey}&results=1`;
-          const responseLight = await fetch(urlLight);
-          const dataLight = await responseLight.json();
-          const light = parseFloat(dataLight.feeds[0].field3).toFixed(2);
+    // Fetch light intensity data from Field 3
+    const urlLight = `https://api.thingspeak.com/channels/${channelID}/fields/3.json?api_key=${readAPIKey}&results=1`;
+    const responseLight = await fetch(urlLight);
+    const dataLight = await responseLight.json();
+    const light = parseFloat(dataLight.feeds[0].field3).toFixed(2);
 
-          // Convert temperature and humidity to integers
-          const roundedTemperature = Math.round(parseFloat(temperature));
-          const roundedHumidity = Math.round(parseFloat(humidity));
-          const roundedLight = Math.round(parseFloat(light));
+    // Update the webpage with the fetched data
+    document.getElementById('current-temperature').textContent = `${temperature} °C`;
+    document.getElementById('current-humidity').textContent = `${humidity} %`;
+    document.getElementById('current-light').textContent = `${light} %`;
 
-          document.getElementById('current-temperature').textContent = `Current Temperature: ${roundedTemperature}°C`;
-          document.getElementById('current-humidity').textContent = `Current Humidity: ${roundedHumidity}%`;
-          document.getElementById('current-light').textContent = `Current Light Intensity: ${roundedLight} lux`;
+    // Optionally, you can add logic to decide which plants are optimal based on the data
+    displayOptimalPlants(temperature, humidity, light);
 
-          displayOptimalPlants(roundedTemperature, roundedHumidity, roundedLight);
+  } catch (error) {
+    console.error('Error fetching data from ThingSpeak:', error);
+  }
+}
 
-      } catch (error) {
-          console.error('Error fetching data from ThingSpeak:', error);
-      }
+function displayOptimalPlants(temperature, humidity, light) {
+  // Define the optimal ranges for each plant type
+  const plants = [
+    { name: "Tomato", temperature: [18, 25], humidity: [60, 70], light: [60, 80] },
+    { name: "Lettuce", temperature: [15, 20], humidity: [50, 70], light: [40, 60] },
+    { name: "Basil", temperature: [20, 30], humidity: [40, 60], light: [70, 90] },
+    { name: "Cucumber", temperature: [22, 28], humidity: [50, 70], light: [60, 80] },
+    { name: "Spinach", temperature: [10, 20], humidity: [60, 80], light: [50, 70] }
+  ];
+  
+  const trees = [
+    { name: "Apple Tree", temperature: [15, 25], humidity: [50, 70], light: [50, 70] },
+    { name: "Oak Tree", temperature: [10, 20], humidity: [40, 60], light: [40, 60] },
+    { name: "Mango Tree", temperature: [25, 35], humidity: [60, 80], light: [70, 90] },
+    { name: "Banana Tree", temperature: [20, 30], humidity: [60, 80], light: [60, 80] },
+    { name: "Lemon Tree", temperature: [20, 30], humidity: [50, 70], light: [60, 80] }
+  ];
+
+  // Check which plant is optimal based on the current sensor values
+  const optimalPlants = plants.filter(plant => 
+    temperature >= plant.temperature[0] && temperature <= plant.temperature[1] &&
+    humidity >= plant.humidity[0] && humidity <= plant.humidity[1] &&
+    light >= plant.light[0] && light <= plant.light[1]
+  );
+
+  const optimalTrees = trees.filter(tree => 
+    temperature >= tree.temperature[0] && temperature <= tree.temperature[1] &&
+    humidity >= tree.humidity[0] && humidity <= tree.humidity[1] &&
+    light >= tree.light[0] && light <= tree.light[1]
+  );
+
+  // Display the optimal plants
+  const plantList = document.getElementById('optimal-plants');
+  plantList.innerHTML = ''; // Clear the current list
+  if (optimalPlants.length > 0) {
+    optimalPlants.forEach(plant => {
+      const plantItem = document.createElement('li');
+      plantItem.textContent = plant.name;
+      plantList.appendChild(plantItem);
+    });
+  } else {
+    plantList.innerHTML = '<li>No optimal plants found for the current conditions.</li>';
   }
 
-  function displayOptimalPlants(temperature, humidity, light) {
-      // Example logic to determine optimal plants based on temperature, humidity, and light intensity
-      const optimalPlants = [];
-
-      if (temperature >= 20 && temperature <= 30 && humidity >= 40 && humidity <= 60 && light >= 500 && light <= 1000) {
-          optimalPlants.push('Tomato', 'Cucumber');
-      } else if (temperature >= 15 && temperature <= 25 && humidity >= 30 && humidity <= 50 && light >= 400 && light <= 800) {
-          optimalPlants.push('Pepper', 'Eggplant');
-      } else {
-          document.getElementById('optimal-plants').textContent = 'No optimal plants found';
-          return;
-      }
-
-      const plantsList = optimalPlants.join(', ');
-      document.getElementById('optimal-plants').textContent = `Optimal Plants: ${plantsList}`;
+  // Display the optimal trees
+  const treeList = document.getElementById('optimal-trees');
+  treeList.innerHTML = ''; // Clear the current list
+  if (optimalTrees.length > 0) {
+    optimalTrees.forEach(tree => {
+      const treeItem = document.createElement('li');
+      treeItem.textContent = tree.name;
+      treeList.appendChild(treeItem);
+    });
+  } else {
+    treeList.innerHTML = '<li>No optimal trees found for the current conditions.</li>';
   }
+}
 
-  // Fetch data and update UI every minute
-  setInterval(fetchDataAndUpdateUI, 60000);
-});
+// Call the function to fetch data when the page loads
+fetchSensorData();
+
+// Optionally, you can set an interval to fetch the data periodically (e.g., every 30 seconds)
+setInterval(fetchSensorData, 30000);

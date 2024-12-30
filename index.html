@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Monitor</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        h1, p {
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Greenhouse Monitoring</title>
+  <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
-    <div class="container">
-        <h1>Plant Monitor</h1>
-        <p id="current-temperature">Current Temperature: Loading...</p>
-        <p id="current-humidity">Current Humidity: Loading...</p>
-        <p id="current-light">Current Light Intensity: Loading...</p>
-        <p id="optimal-plants"></p>
+  <div class="container">
+    <header>
+      <h1>Smart Greenhouse Monitoring</h1>
+      <img src="greenhouse.png" alt="Greenhouse Image" class="header-img">
+    </header>
+
+    <div class="sensor-data">
+      <h2>Current Sensor Data</h2>
+      <p>Temperature: <span id="current-temperature">Loading...</span> °C</p>
+      <p>Humidity: <span id="current-humidity">Loading...</span> %</p>
+      <p>Light Intensity: <span id="current-light">Loading...</span> %</p>
     </div>
 
-    <script src="script.js"></script>
+    <div class="optimal-plants">
+      <h2>Optimal Plants</h2>
+      <ul id="optimal-plants">Loading...</ul>
+    </div>
+
+    <div class="optimal-trees">
+      <h2>Optimal Trees</h2>
+      <ul id="optimal-trees">Loading...</ul>
+    </div>
+
+    <footer>
+      <p>Powered by Smart Greenhouse Project</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script> <!-- Link to the external JS file -->
 </body>
 </html>
